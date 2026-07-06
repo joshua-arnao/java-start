@@ -143,3 +143,11 @@ cubrirlo — nunca "media región".
 > para objetos chicos (con un array de 100 elementos, la diferencia
 > medida salió en 0 bytes, porque cabía en espacio ya reservado de antes).
 
+#### TIPO DE DATO: **float, double**
+
+- Tipo de datos para representar números reales con precisión simple(float) o doble(double).
+
+    ```java
+    float valorFloat = 3.4028235E38f; // Rango máximo positivo del float
+    double valorDouble = 1.7976931348623157e308; // Rango máximo positivo de double
+    ```
