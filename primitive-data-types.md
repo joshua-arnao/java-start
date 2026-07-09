@@ -31,6 +31,7 @@ Son tipos de datos que contienen un solo valor.
 
 #### TIPO DE DATO: **char**
 
+- Es un entero SIN signo de 16 bits que representa una unidad de código UTF-16.
 - Usa el código UNICODE y ocupa cada carácter 16 bits
 
     ```java
@@ -65,7 +66,7 @@ long enteroLong =9223372036854775807L;
 > el compilador lo trata como `int` por defecto. Para forzar `long`,
 > se agrega el sufijo `L`: `long id = 5000000000L;`
 
-##### ¿QUÉ RESUELVE CADA UNO? (el "por qué" de su existencia)
+##### ¿QUÉ RESUELVE CADA UNO? 
 
 - **byte**: resuelve el problema de memoria a GRAN escala. Si tienes un array de millones de elementos donde sabes que el valor nunca pasará de 127 (ej. un valor de un sensor, un byte de una imagen, un flag), usar `byte[]` en vez de `int[]` puede ahorrar 3 de cada 4 bytes de memoria. También es la unidad base de E/S (leer un archivo, una conexión de red se lee en bytes).
 
@@ -99,10 +100,10 @@ del más grande, ANTES de operar. Esto pasa solo, sin pedirlo, y sin
 ningún cast explícito.
 
 > Ejemplo real que lo demuestra:
-```java
-long maximoLong = Integer.MAX_VALUE;  // 2,147,483,647 (int, 32 bits)
-System.out.println(maximoLong + 1);   // resultado: 2147483648
-```
+  ```java
+  long maximoLong = Integer.MAX_VALUE;  // 2,147,483,647 (int, 32 bits)
+  System.out.println(maximoLong + 1);   // resultado: 2147483648
+  ```
 > Aunque `Integer.MAX_VALUE` es el número más grande que un `int` puede soportar, al guardarlo en una variable `long` Java lo expande a 64 bits (rellenando con ceros a la izquierda, porque es positivo). Por eso sumarle 1 YA NO desborda — el `long` tiene muchísimas columnas de bits libres a la izquierda que el `int` no tenía.
 
 #### Jerarquía de promoción (de menor a mayor)
