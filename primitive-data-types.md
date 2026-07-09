@@ -21,6 +21,8 @@ Son tipos de datos que contienen un solo valor.
 
 - Un solo bit.
 - Expresa un valor VERDADERO o FALSO
+- La JVM no define **un tamaño fijo de bites**, la JVM es libre de implementar el boolean como le convenga internamente, comunmente puede ocupar de 1 byte a 4 bytes.
+- Un boolean no se trata como un `int` con 0/1 se usa la **seguridad de tipos** para evitar confundir lógica booleana con aritmética por accidente 
 
     ```java
     boolean isLoading = false;
@@ -146,8 +148,36 @@ cubrirlo — nunca "media región".
 #### TIPO DE DATO: **float, double**
 
 - Tipo de datos para representar números reales con precisión simple(float) o doble(double).
+- Usa el estándar IEEE 754, que divide los bits en 3 partes: signo, exponente, y mantisa (la parte que guarda los dígitos significativos). Por eso pueden representar números muy grandes o muy pequeños, pero con una limitación importante:
 
-    ```java
-    float valorFloat = 3.4028235E38f; // Rango máximo positivo del float
-    double valorDouble = 1.7976931348623157e308; // Rango máximo positivo de double
-    ```
+| Tipo     | Bits |   Precisión aproximada   | Uso típico                                                                         |
+|:---------|:----:|:------------------------:|:-----------------------------------------------------------------------------------|
+| `float`  | 32 |   ~7 dígitos decimales   | Poco usado en Java moderno. Juegos donde importe más la velocidad que la precisión |
+| `double` | 64 | ~15-16 dígitos decimales | Default para demcimales: cálculos científicos, promedios, mediciones               |
+
+
+```java
+void main(String[] args) {
+  float valorFloat = 3.4028235E38f; // Rango máximo positivo del float
+  double valorDouble = 1.7976931348623157e308; // Rango máximo positivo de double
+
+  //
+  double resultado = 0.1 + 0.2;
+  System.out.println(resultado); // 0.30000000000000004  (!!)
+}
+```
+
+El problema real de sumar con **double**:
+
+```java
+void main(String[] args) {
+  double resultado = 0.1 + 0.2;
+  System.out.println(resultado); // 0.30000000000000004  (!!)
+}
+```
+
+Esto **NO es un bug de Java**, es una limitación inherente a representar fracciones decimal en binario.
+
+> `0.1` no se puede escribir exacto en binario
+
+

@@ -22,5 +22,8 @@ public class pocOperadores {
         // System.out.println(b = (b+5)); // Error se necesita un cast que java esconde en la primera suma (byte) (b+5)
         System.out.println(b = (byte)(b+5)); // Cast
 
+        double resultado = 0.1 + 0.2;
+        System.out.println(resultado); // 0.30000000000000004  (!!)
+
     }
 }
