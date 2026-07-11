@@ -20,3 +20,22 @@ Java tiene dos categorías de modificadores que aplican a clases, métodos y var
 | `synchronized` | Controla acceso concurrente entre hilos                                                                      |
 | `transient`    | Excluye un campo de la serialización                                                                         |
 | `volatile`     | Garantiza visibilidad de una variable entre hilos (sin ella, un hilo puede no "ver" el cambio que hizo otro) |
+
+
+### LOS 3 USOS DE `final`
+
+| Se aplica a... | Qué bloquea                                 | Ejemplo                           |
+|:---------------|:--------------------------------------------|:----------------------------------|
+| **Variable**   | Reasignar el valor/referencia               | `final double TAX_RATE = 0.18;`   |
+| **Método**     | Que una subclase lo sobrescriba (@Override) | `final void procesar() {...}`     |
+| **Clase**      | Que se pueda heredar de ella                | `final class Configuracion {...}` |
+
+> Ejemplo real de `final class`: la propia clase `String` de Java es `final` — nadie puede heredar de `String` y modificar su comportamiento interno. Es una decisión de diseño que refuerza la inmutabilidad.
+
+### El matiz importante: `final` en objetos NO es lo mismo que inmutable
+
+```java
+final Usuario usuario = new Usuario("Joshua");
+usuario.setNombre("Otro");    // SÍ SE PUEDE — el objeto puede mutar
+usuario = new Usuario("X");   // NO COMPILA — no se puede cambiar la REFERENCIA
+```
