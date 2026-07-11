@@ -2,9 +2,9 @@
 
 Existen dos categorías de datos principales **Primitivas** y **Referencia**
 
-### 1. TIPO DE DATOS PRIMITIVOS
+### 1. TIPO DE VARIABLES PRIMITIVAS
 
-Son tipos de datos que contienen un solo valor.
+Son tipos de datos que contienen un solo valor y pueden variar con el tiempo.
 
 | Tipos de dato | Tamaño  | Valor por defecto | Uso común                               |
 |:--------------|:--------|:------------------|:----------------------------------------|

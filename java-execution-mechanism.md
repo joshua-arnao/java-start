@@ -73,6 +73,28 @@ Nivel 4: Compilado con C2     → compilación más costosa, pero genera
 > Esto explica por qué una app "tarda en calentar" al inicio, pero
 > después de unos segundos/minutos corre mucho más rápido.
 
+#### ¿Por qué hay DOS compiladores (C1 y C2)?
+
+| | C1 (Cliente) | C2 (Servidor) |
+|---|---|---|
+| Actúa | Primero, ~100 invocaciones | Después, ~10,000 invocaciones |
+| Velocidad de compilar | Rápida | Lenta (analiza mucho más a fondo) |
+| Calidad del código generado | Optimización básica | Optimización agresiva |
+
+Si solo existiera C2, el método seguiría interpretado (lento) mucho
+tiempo, esperando llegar a 10,000 invocaciones. Si solo existiera C1,
+nunca se llegaría al máximo rendimiento posible. Por eso trabajan en
+**niveles (tiered compilation)**: C1 da una mejora rápida y temprana,
+y mientras tanto, si el método sigue siendo muy frecuente, C2 compila
+en paralelo (en otro hilo) una versión más optimizada que reemplaza
+a la de C1 cuando está lista — sin detener el programa a esperar.
+
+> ⚠️ Esa compilación de C2 en paralelo consume CPU real del sistema.
+> Si mides tiempos de ejecución (benchmarks caseros con
+> `System.nanoTime()`), es normal ver un pico raro de lentitud justo
+> cuando el JIT está haciendo esa transición de C1 a C2 — no es un
+> error del código, es el propio compilador trabajando de fondo.
+
 ### FASE 5: ASIGNACIÓN DE MEMORIA EN TIEMPO REAL (Stack vs. Heap)
 Mientras el Execution Engine corre tu código, cada instrucción decide
 en tiempo real dónde se guardan los datos:
@@ -90,13 +112,13 @@ STACK (frame de metodo())          HEAP
 ```
 
 - **Stack (Pila)**: Tareas rápidas
-    - Función: Memoria de acceso ultra rápido y corto plazo.
-    - Qué guarda: Variables locales (primitivos como int, double) y las referencias (direcciones) a los objetos.
-    - Orden: LIFO (Last In, First Out). Cuando un método termina, su Stack se limpia instantáneamente.
+  - Función: Memoria de acceso ultra rápido y corto plazo.
+  - Qué guarda: Variables locales (primitivos como int, double) y las referencias (direcciones) a los objetos.
+  - Orden: LIFO (Last In, First Out). Cuando un método termina, su Stack se limpia instantáneamente.
 - **Heap (Montón)**: El Gran almacén
-    - Función: Memoria de largo plazo y gran capacidad.
-    - Qué guarda: Los Objetos Reales (instancias de clases).
-    - Gestión: Aquí operan los objetos que el Garbage Collector (GC) analiza; el GC limpia automáticamente los que ya no tienen ninguna referencia viva apuntándoles desde el Stack.
+  - Función: Memoria de largo plazo y gran capacidad.
+  - Qué guarda: Los Objetos Reales (instancias de clases).
+  - Gestión: Aquí operan los objetos que el Garbage Collector (GC) analiza; el GC limpia automáticamente los que ya no tienen ninguna referencia viva apuntándoles desde el Stack.
 
 ### FASE 6: LIBERACIÓN DE MEMORIA (Garbage Collector)
 
